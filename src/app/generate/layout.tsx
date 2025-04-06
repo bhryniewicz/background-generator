@@ -6,9 +6,9 @@ export default function GeneratePageLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="bg-[#140021] grid grid-cols-12 h-screen w-full px-32 py-12">
+    <div className="bg-[#140021] flex flex-col h-screen w-full px-32 pt-12">
       <Navbar />
-      {children}
+      <div className=" flex flex-col h-full overflow-auto">{children}</div>
     </div>
   );
 }

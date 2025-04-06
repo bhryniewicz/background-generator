@@ -11,16 +11,18 @@ export const Navbar = () => {
 
   return (
     <nav className="max-h-min col-start-1 col-end-13 flex items-center justify-between font-joti_one text-white">
-      <div className="flex items-center gap-4">
-        <Image
-          src={AppLogo}
-          alt="app logo"
-          width={40}
-          height={40}
-          placeholder="blur"
-        />
-        <h1 className="text-2xl">BGenerator</h1>
-      </div>
+      <Link href="/">
+        <div className="flex items-center gap-4">
+          <Image
+            src={AppLogo}
+            alt="app logo"
+            width={40}
+            height={40}
+            placeholder="blur"
+          />
+          <h1 className="text-2xl">BGenerator</h1>
+        </div>
+      </Link>
       <ul className="flex gap-20 text-lg">
         {routes.map(({ label, route }) => {
           const isActive = pathname === route;
