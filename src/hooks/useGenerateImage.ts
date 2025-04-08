@@ -3,6 +3,8 @@ import { CanvasService } from "@/services/CanvasService";
 import { addColorToCookies } from "@/screens/Generate/utils";
 import { redirect } from "next/navigation";
 import { useCallback, useState } from "react";
+import { toast } from "sonner";
+import { useImages } from "./useImages";
 
 export const useGenerateImage = () => {
   const [isCanvasGenerated, setIsCanvasGenerated] = useState<boolean>(false);
@@ -11,6 +13,7 @@ export const useGenerateImage = () => {
     null
   );
   const [imgUrl, setImgUrl] = useState<string | undefined>(undefined);
+  const { addImageMutation } = useImages();
 
   const setCanvasRef = useCallback(
     (canvasElement: HTMLCanvasElement | null) => {
@@ -46,10 +49,18 @@ export const useGenerateImage = () => {
 
   const handleDownloadImage = () => {
     canvasManager?.downloadCanvas();
+    toast("Image has been downloaded.");
   };
 
   const handleChangeOptions = () => {
     setIsCanvasGenerated(false);
+  };
+
+  const handleSaveInGallery = () => {
+    if (!imgUrl) return toast("Cannot save image");
+
+    addImageMutation(imgUrl);
+    toast("Image has been saved in gallery.");
   };
 
   const handleGenerateAgain = async () => {
@@ -73,5 +84,6 @@ export const useGenerateImage = () => {
     handleGenerateAgain,
     handleChangeOptions,
     handleDownloadImage,
+    handleSaveInGallery,
   };
 };

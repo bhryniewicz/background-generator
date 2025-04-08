@@ -13,7 +13,7 @@ export const routes: NavbarRoute[] = [
     route: "/images",
   },
   {
-    label: "Tip / Conract",
-    route: "/tip",
+    label: "Statistics",
+    route: "/stats",
   },
 ];

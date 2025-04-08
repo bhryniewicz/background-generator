@@ -24,6 +24,7 @@ export const GenerateScreen: FC<GenerateScreenProps> = ({ colors }) => {
     handleDownloadImage,
     handleGenerateAgain,
     setCanvasRef,
+    handleSaveInGallery,
   } = useGenerateImage();
 
   return (
@@ -35,7 +36,7 @@ export const GenerateScreen: FC<GenerateScreenProps> = ({ colors }) => {
           savedValues={formData}
         />
       ) : (
-        <div className="grid grid-cols-4 h-full gap-16 my-16">
+        <div className="grid grid-cols-4 h-full gap-16 my-12">
           <div
             className={cn(
               "relative transition-opacity col-start-1 col-end-4 h-full",
@@ -57,7 +58,7 @@ export const GenerateScreen: FC<GenerateScreenProps> = ({ colors }) => {
               Actions which you can do with image:
             </h1>
             <Button onClick={handleDownloadImage}>Download image</Button>
-            <Button onClick={handleDownloadImage}>Save in gallery</Button>
+            <Button onClick={handleSaveInGallery}>Save in gallery</Button>
             <Button onClick={handleChangeOptions}>Change options</Button>
             <Button onClick={handleGenerateAgain}>Generate again</Button>
             <Button
