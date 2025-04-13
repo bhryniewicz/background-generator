@@ -19,7 +19,7 @@ export const ImageOpacitySlider = () => {
 
   return (
     <div className="max-w-[350px] ">
-      <FormLabel>Choose opacity of images:</FormLabel>
+      <FormLabel>IMAGE OPACITY</FormLabel>
       <FormField
         control={control}
         name={"imageOpacity"}

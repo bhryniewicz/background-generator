@@ -37,6 +37,7 @@ export const useGenerateImage = () => {
   );
 
   const onSubmit = async (data: FormValues) => {
+    console.log(data);
     addColorToCookies(data.color);
     setFormData(data);
     setIsCanvasGenerated(true);

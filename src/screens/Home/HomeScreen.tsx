@@ -9,7 +9,7 @@ export const HomeScreen = () => {
           <span className="text-[#9900FF] uppercase">Awesome Background</span>{" "}
           on your own!
         </h1>
-        <p className="text-md text-center font-semibold px-28">
+        <p className="text-md text-center font-semibold">
           Create unique, eye-catching backgrounds that match your style, mood,
           or creative vision — all with just a few clicks.
         </p>

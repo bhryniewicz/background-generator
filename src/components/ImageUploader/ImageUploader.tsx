@@ -40,18 +40,18 @@ export const ImageUploader = () => {
 
   return (
     <div>
-      <FormLabel>Choose image:</FormLabel>
+      <FormLabel>IMAGE</FormLabel>
       <FormField
         control={control}
         name={"image"}
         render={() => (
-          <FormItem className="flex flex-col gap-2">
+          <FormItem className="flex flex-col gap-2 ">
             <FormControl>
               <Input
                 id="picture"
                 type="file"
                 className={cn(
-                  `text-gray-500 border-gray-500 hover:border-white w-min cursor-pointer transition-all duration-300`,
+                  `text-gray-500 w-full border-gray-500 hover:border-white cursor-pointer transition-all duration-300`,
                   watch("image") &&
                     "border-[#b13cff] text-[#b13cff] file:text-gray-500"
                 )}

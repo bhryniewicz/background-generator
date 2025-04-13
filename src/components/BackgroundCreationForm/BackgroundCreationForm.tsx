@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { ColorPicker } from "../ColorPicker";
 import {
   differntSizesOptions,
@@ -16,19 +15,15 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { FormValues, schema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageUploader } from "../ImageUploader";
-import { cn } from "@/lib/utils";
 import { FC } from "react";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 interface BackgroundCreationFormProps {
   onSubmit: SubmitHandler<FormValues>;
-  colors: RequestCookie | undefined;
   savedValues?: FormValues | null;
 }
 
 export const BackgroundCreationForm: FC<BackgroundCreationFormProps> = ({
   onSubmit,
-  colors,
   savedValues,
 }) => {
   const form = useForm<FormValues>({
@@ -37,56 +32,42 @@ export const BackgroundCreationForm: FC<BackgroundCreationFormProps> = ({
     defaultValues: savedValues ?? defaultValues,
   });
 
-  const { handleSubmit, watch } = form;
+  console.log(savedValues, "saved");
+
+  const { handleSubmit } = form;
 
   return (
     <FormProvider {...form}>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="grid grid-cols-2 gap-32 px-18 py-12 border border-[#2e2e2e] rounded-[40px] bg-[#1F083C]/50 flex-grow-1 my-12 overflow-hidden"
-      >
-        <div className="flex flex-col gap-6">
+      <form onSubmit={handleSubmit(onSubmit)} id="background_generation_form">
+        <div className="flex flex-col gap-4">
+          <ColorPicker />
           <ImageUploader />
-          <ColorPicker colors={colors?.value} />
           <SelectableBoxes
             options={rangeOptions}
             name={"amount"}
-            formLabel="Choose how many imag\es on background:"
+            formLabel="NUMBER OF PICTURES"
           />
           <SelectableBoxes
             options={differntSizesOptions}
             name={"imageDifferentSizes"}
-            formLabel="Should images be pdifferent sizes?"
+            formLabel="DIFFERENT IMAGE SIZES"
           />
           <SelectableBoxes
             options={sizeOptions}
             name={"imageSize"}
-            formLabel="Select size of images:"
+            formLabel="IMAGE SIZE"
           />
           <ImageOpacitySlider />
           <Shapes />
-        </div>
-        <div className="w-full h-full flex flex-col gap-8 items-center justify-center overflow-hidden">
-          <div
-            className={cn(
-              `flex items-center justify-center border border-gray-600 relative w-full h-full`
-            )}
-            style={{ opacity: watch("imageOpacity") }}
-          >
-            {watch("image") ? (
-              <Image
-                src={URL.createObjectURL(watch("image"))}
-                alt="picked image"
-                fill
-              />
-            ) : (
-              <h3 className="text-white font-joti_one">No file choosen</h3>
-            )}
-          </div>
-
-          <div className="flex gap-4 w-full justify-end">
-            <Button type="submit">Generate background</Button>
-            <Button variant={"outline"}>cancel</Button>
+          <div className="w-full h-full flex flex-col gap-8 items-center justify-center overflow-hidden mt-6">
+            <div className="flex gap-4 w-full justify-end ">
+              <Button variant={"outline"} className="text-sm flex-grow-1">
+                cancel
+              </Button>
+              <Button type="submit" className="text-sm flex-grow-1">
+                Generate
+              </Button>
+            </div>
           </div>
         </div>
       </form>

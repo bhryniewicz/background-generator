@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import { useDebouncedCallback } from "use-debounce";
 import { useFormContext } from "react-hook-form";
@@ -15,19 +15,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 
-interface ColorPickerProps {
-  colors: string | undefined;
-}
-
-export const ColorPicker: FC<ColorPickerProps> = ({ colors }) => {
+export const ColorPicker = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const form = useFormContext();
 
-  const usedColors = useMemo(() => {
-    return colors ? JSON.parse(colors) : "";
-  }, [colors]);
+  const { data: usedColors } = useQuery<string[]>({
+    queryKey: ["USED_COLORS"],
+    queryFn: () => [],
+    staleTime: 1000 * 60 * 5,
+  });
 
   const debounceSetFormValue = useDebouncedCallback((val) => {
     form.setValue("color", val);
@@ -36,11 +35,11 @@ export const ColorPicker: FC<ColorPickerProps> = ({ colors }) => {
   const chosenColor = form.watch("color");
 
   return (
-    <div className="max-w-max relative">
-      <FormLabel>Choose color of background:</FormLabel>
+    <div className="relative">
+      <FormLabel>BACKGROUND</FormLabel>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <div className="flex items-center justify-between gap-4 border border-white h-[36px] px-6 rounded-md text-white w-[160px] cursor-pointer">
+          <div className="flex items-center justify-between gap-4 w-full border border-white h-[36px] px-6 rounded-md text-white cursor-pointer">
             <div>{chosenColor}</div>
             <div
               className="w-5 h-5 rounded-sm border border-gray-300"

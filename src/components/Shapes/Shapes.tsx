@@ -7,44 +7,60 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { useDebouncedCallback } from "use-debounce";
 
 export const Shapes = () => {
-  const { setValue, control, watch, trigger } = useFormContext();
+  const { setValue, control, trigger, watch } = useFormContext();
 
-  const debounceSetFormValue = useDebouncedCallback((shape) => {
-    setValue("shape", shape);
+  const handleChangeShape = (val: string) => {
+    const parsedDimensionsObject = JSON.parse(val);
+    setValue("shape", parsedDimensionsObject);
     trigger("shape");
-  }, 500);
+  };
+
+  const selectedShape = watch("shape");
 
   return (
     <div>
-      <FormLabel>Choose one of the shapes:</FormLabel>
+      <FormLabel>CANVAS</FormLabel>
       <FormField
         control={control}
-        name={"shape"}
-        render={({ field }) => (
-          <div className="flex flex-col gap-2">
-            <FormItem className="flex gap-4">
-              {shapesOptions.map(({ label, aspectRatioClass, shape }) => (
-                <FormControl key={label}>
-                  <div className="flex flex-col items-center">
-                    <div
-                      {...field}
-                      className={cn(
-                        `${aspectRatioClass} bg-gray-500 hover:bg-white transition-all duration-300, w-[50px]`,
-                        JSON.stringify(watch("shape")) ===
-                          JSON.stringify(shape) && "bg-[#9900FF]"
-                      )}
-                      onClick={() => debounceSetFormValue(shape)}
-                    />
-                  </div>
-                </FormControl>
-              ))}
-            </FormItem>
+        name="shape"
+        render={() => (
+          <FormItem>
+            <Select
+              onValueChange={(dimensions) => handleChangeShape(dimensions)}
+              value={selectedShape ? JSON.stringify(selectedShape) : ""}
+            >
+              <FormControl>
+                <SelectTrigger
+                  className={cn(
+                    `w-full text-white border-gray-500 transition-all duration-300 hover:border-white`,
+                    watch("shape") && "border-[#b13cff] text-[#b13cff]"
+                  )}
+                >
+                  <SelectValue placeholder="Select what dimensions canvas should be" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {shapesOptions.map(({ label, shape }) => {
+                  return (
+                    <SelectItem key={label} value={JSON.stringify(shape)}>
+                      {label}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
             <FormMessage />
-          </div>
+          </FormItem>
         )}
       />
     </div>

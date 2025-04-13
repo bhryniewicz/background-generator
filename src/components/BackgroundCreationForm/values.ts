@@ -48,6 +48,6 @@ export const differntSizesOptions: BoxOption<boolean>[] = [
 ];
 
 export const defaultValues: Pick<FormValues, "color" | "imageOpacity"> = {
-  color: "#1F083C",
+  color: "#161616",
   imageOpacity: 1,
 };

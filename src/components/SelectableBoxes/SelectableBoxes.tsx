@@ -32,7 +32,7 @@ export const SelectableBoxes = <T,>({
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       <FormLabel>{formLabel}</FormLabel>
       <FormField
         control={control}
@@ -45,7 +45,7 @@ export const SelectableBoxes = <T,>({
                   <div
                     {...field}
                     className={cn(
-                      "border border-gray-500 text-gray-500 px-6 py-[4px] rounded-lg hover:border-white hover:text-white transition-colors duration-300",
+                      "flex-grow-1 text-center text-sm border border-gray-500 text-gray-500 px-6 py-[4px] rounded-lg hover:border-white hover:text-white transition-colors duration-300",
                       JSON.stringify(watch(name)) === JSON.stringify(value) &&
                         "border-[#b13cff] text-[#b13cff]"
                     )}

@@ -5,6 +5,7 @@ import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
 import React, { useCallback } from "react";
 import { Engine } from "tsparticles-engine";
+import Sparkle from "./sparkle.svg";
 
 const ParticlesBackground = () => {
   const particlesInit = useCallback(async (engine: Engine) => {
@@ -80,13 +81,12 @@ export default function HomePageLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative ">
+    <>
       <ParticlesBackground />
-
       <div className="grid grid-cols-12 relative z-10 h-screen w-full px-32 overflow-hidden">
         <Navbar />
         {children}
       </div>
-    </div>
+    </>
   );
 }

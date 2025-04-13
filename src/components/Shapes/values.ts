@@ -1,23 +1,20 @@
 export const shapesOptions = [
   {
-    label: "16:9",
-    aspectRatioClass: "aspect-[16/9]",
+    label: "1920 x 1080",
     shape: {
       width: 1920,
       height: 1080,
     },
   },
   {
-    label: "4:3",
-    aspectRatioClass: "aspect-[4/3]",
+    label: "1080 x 720",
     shape: {
       width: 1080,
       height: 720,
     },
   },
   {
-    label: "4:4",
-    aspectRatioClass: "aspect-square",
+    label: "1000 x 1000",
     shape: {
       width: 1000,
       height: 1000,

@@ -1,15 +1,24 @@
 import { GenerateScreen } from "@/screens/Generate/GenerateScreen";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import { cookies } from "next/headers";
 
-const getColorsUsedBefore = async (): Promise<RequestCookie | undefined> => {
+export default async function GeneratePage() {
+  const queryClient = new QueryClient();
+
   const cookiesStore = await cookies();
 
-  return cookiesStore.get("color");
-};
+  queryClient.setQueryData(
+    ["USED_COLORS"],
+    JSON.parse(cookiesStore.get("color")?.value as string)
+  );
 
-export default async function GeneratePage() {
-  const colors = await getColorsUsedBefore();
-
-  return <GenerateScreen colors={colors} />;
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <GenerateScreen />;
+    </HydrationBoundary>
+  );
 }

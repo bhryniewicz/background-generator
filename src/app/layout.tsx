@@ -1,5 +1,3 @@
-"use client";
-
 import { Joti_One, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
@@ -14,12 +12,9 @@ const jotiOne = Joti_One({
   subsets: ["latin"],
   weight: ["400"],
 });
+import Providers from "@/providers";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-const queryClient = new QueryClient();
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -29,10 +24,10 @@ export default function RootLayout({
       <body
         className={`${jotiOne.variable} ${montserrat.variable} antialiased`}
       >
-        <QueryClientProvider client={queryClient}>
+        <Providers>
           {children}
           <Toaster />
-        </QueryClientProvider>
+        </Providers>
       </body>
     </html>
   );
