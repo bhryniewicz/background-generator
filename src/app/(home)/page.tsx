@@ -1,5 +1,5 @@
-import { HomeScreen } from "@/screens/Home";
+import { HomeInfo } from "./_components/home-info";
 
-export default function Home() {
-  return <HomeScreen />;
+export default function HomePage() {
+  return <HomeInfo />;
 }

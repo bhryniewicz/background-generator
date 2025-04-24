@@ -1,5 +1,5 @@
 import { Joti_One, Montserrat } from "next/font/google";
-import "./globals.css";
+import "@/styles/globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
 const montserrat = Montserrat({
@@ -12,7 +12,7 @@ const jotiOne = Joti_One({
   subsets: ["latin"],
   weight: ["400"],
 });
-import Providers from "@/providers";
+import Providers from "@/app/providers";
 
 export default async function RootLayout({
   children,
