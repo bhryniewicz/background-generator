@@ -6,12 +6,13 @@ import AppLogo from "@/assets/icon.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { routes } from "@/config/paths";
+import { Button } from "../ui/button";
 
 export const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="text-sm max-h-min col-start-3 col-end-11 flex items-center justify-between font-semibold py-4 px-8 bg-white/40 text-white rounded-xl border-2 border-white mt-8">
+    <nav className="text-sm h-[8vh] col-span-full xl:col-start-3 xl:col-end-11 flex items-center justify-between font-semibold py-4 px-8 bg-white/40 text-white rounded-xl border-2 border-white mt-8">
       <Link href="/">
         <div className="flex items-center gap-4">
           <Image src={AppLogo} alt="app logo" width={40} height={40} />
@@ -37,7 +38,7 @@ export const Navbar = () => {
           );
         })}
       </ul>
-      <div>Sign in</div>
+      <Button>Sign in</Button>
     </nav>
   );
 };

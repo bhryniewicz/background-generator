@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 export const HomeInfo = () => {
   return (
     <>
-      <div className="col-start-2 col-end-12 container mx-auto text-white h-[90vh] content-center flex-grow-1">
+      <div className="col-start-2 col-end-12 container mx-auto text-white h-[92vh] content-center flex-grow-1">
         <div className="flex items-center justify-center flex-col gap-10 self-center">
           <h1 className="text-[70px]/20 font-bold text-center ">
             Make{" "}

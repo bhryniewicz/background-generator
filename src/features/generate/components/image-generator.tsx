@@ -25,7 +25,12 @@ export const ImageGenerator = () => {
               className="rounded-lg"
             />
           ) : (
-            <div className="border border-white/40 h-full" />
+            <div className="flex flex-col gap-2 items-center justify-center border border-white/40 h-full">
+              <h1 className="text-white text-xl">Drag'n'drop Area</h1>
+              <p className="text-white/60">
+                Drop there file which you want to add to generation
+              </p>
+            </div>
           )}
         </div>
         <Canvas />

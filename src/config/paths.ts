@@ -9,7 +9,7 @@ export const routes: NavbarRoute[] = [
     route: "/generate",
   },
   {
-    label: "Images",
+    label: "Gallery",
     route: "/gallery",
   },
   {

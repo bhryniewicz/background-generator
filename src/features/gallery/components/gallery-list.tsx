@@ -1,13 +1,15 @@
 "use client";
 
-import { useImages } from "@/features/gallery/api/useImages";
 import { iconProps } from "@/styles/lucide-icons-styling";
 import { EraserIcon, MonitorDownIcon } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
+import { useImages } from "../api/get-images";
+import { useDeleteImage } from "../api/delete-image";
 
 export const GalleryList = () => {
-  const { isLoading, data, deleteImageMutation } = useImages();
+  const { data, isLoading } = useImages();
+  const { mutate } = useDeleteImage();
 
   const handleDownloadFromGallery = (url: string) => {
     const link = document.createElement("a");
@@ -22,7 +24,7 @@ export const GalleryList = () => {
   if (!data) return null;
 
   return (
-    <div className="col-span-9 grid grid-cols-2 gap-8">
+    <div className="col-span-10 grid grid-cols-2 gap-8 pl-8">
       {data.map(({ url, id }) => {
         return (
           <div key={id} className="group max-h-min overflow-hidden">
@@ -38,10 +40,7 @@ export const GalleryList = () => {
             <div className="flex justify-between items-center bg-white gap-4 px-8 py-4">
               <h2 className="text-black font-semibold">IMAGE</h2>
               <div className="flex gap-4">
-                <EraserIcon
-                  onClick={() => deleteImageMutation(id)}
-                  {...iconProps}
-                />
+                <EraserIcon onClick={() => mutate(id)} {...iconProps} />
                 <MonitorDownIcon
                   onClick={() => handleDownloadFromGallery(url)}
                   {...iconProps}
