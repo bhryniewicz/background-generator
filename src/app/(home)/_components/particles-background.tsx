@@ -32,7 +32,7 @@ export const options: RecursivePartial<IOptions> = {
       },
     },
     opacity: {
-      value: 0.4,
+      value: 0.25,
     },
     size: {
       value: 30,
@@ -64,7 +64,7 @@ export const options: RecursivePartial<IOptions> = {
         mode: "repulse",
       },
       onClick: {
-        enable: true,
+        enable: false,
         mode: "push",
       },
       resize: true,
