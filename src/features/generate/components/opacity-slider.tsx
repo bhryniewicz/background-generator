@@ -18,8 +18,8 @@ export const ImageOpacitySlider = () => {
   }, 0);
 
   return (
-    <div className="max-w-[350px] ">
-      <FormLabel>IMAGE OPACITY</FormLabel>
+    <div className="mr-2">
+      <FormLabel className="text-white/70">IMAGE OPACITY</FormLabel>
       <FormField
         control={control}
         name={"imageOpacity"}

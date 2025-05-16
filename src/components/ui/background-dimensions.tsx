@@ -52,7 +52,7 @@ export const Shapes = () => {
 
   return (
     <div>
-      <FormLabel>CANVAS</FormLabel>
+      <FormLabel className="text-white/80">CANVAS</FormLabel>
       <FormField
         control={control}
         name="shape"
@@ -66,10 +66,10 @@ export const Shapes = () => {
                 <SelectTrigger
                   className={cn(
                     `w-full text-white border-gray-500 transition-all duration-300 hover:border-white`,
-                    watch("shape") && "border-[#b13cff] text-[#b13cff]"
+                    watch("shape") && "border-white text-white font-semibold"
                   )}
                 >
-                  <SelectValue placeholder="Select what dimensions canvas should be" />
+                  <SelectValue placeholder="Select dimensions" />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>

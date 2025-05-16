@@ -1,14 +1,17 @@
+"use client";
+
 import { cn } from "@/lib/utils";
-import { Input } from "../../../components/ui/input";
+import { Input } from "@/components/ui/input";
 import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { useFormContext } from "react-hook-form";
-import { useState } from "react";
+import { useState, useCallback, useRef } from "react";
+import { useDropzone } from "react-dropzone";
+import { FileDownIcon } from "lucide-react";
 
 type Dimensions = {
   width: number;
@@ -20,76 +23,103 @@ export const ImageUploader = () => {
     null
   );
   const { watch, control, setValue, trigger } = useFormContext();
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const uploadedFile = e.target.files ? e.target.files[0] : undefined;
-    if (uploadedFile) {
-      setValue("image", uploadedFile);
-      trigger("image");
-      const dimensions = new Image();
-      dimensions.src = URL.createObjectURL(uploadedFile);
+  const image = watch("image");
 
-      dimensions.onload = () => {
-        setImageDimensions({
-          width: dimensions.width,
-          height: dimensions.height,
-        });
-      };
-    }
+  const handleOpenFileDialog = () => {
+    inputRef.current?.click();
   };
 
-  return (
-    <div>
-      <FormLabel>IMAGE</FormLabel>
-      <FormField
-        control={control}
-        name={"image"}
-        render={() => (
-          <FormItem className="flex flex-col gap-2 ">
-            <FormControl>
-              <Input
-                id="picture"
-                type="file"
-                className={cn(
-                  `text-gray-500 w-full border-gray-500 hover:border-white cursor-pointer transition-all duration-300`,
-                  watch("image") &&
-                    "border-[#b13cff] text-[#b13cff] file:text-gray-500"
-                )}
-                onChange={handleFileInput}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+  const handleFile = useCallback(
+    (file: File) => {
+      setValue("image", file);
+      trigger("image");
 
-      {/* {imageDimensions && (
-       <FormLabel>Choose image:</FormLabel>
-       <FormField
-         control={control}
-         name={"imageDimensions"}
-         render={() => (
-           <FormItem className="flex flex-col gap-2">
-             <FormControl>
-               <Input
-                 id="picture"
-                 type="file"
-                 className={cn(
-                   `text-gray-500 border-gray-500 hover:border-white w-min cursor-pointer transition-all duration-300`,
-                   watch("image") &&
-                     "border-[#b13cff] text-[#b13cff] file:text-gray-500"
-                 )}
-                 onChange={handleFileInput}
-               />
-             </FormControl>
-             <FormMessage />
-           </FormItem>
-         )}
-       />
-        <div className="text-white">
-          {imageDimensions.width} | {imageDimensions.height}
-        </div>
-      )} */}
-    </div>
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        setImageDimensions({
+          width: img.width,
+          height: img.height,
+        });
+      };
+    },
+    [setValue, trigger]
+  );
+
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      if (acceptedFiles.length > 0) {
+        handleFile(acceptedFiles[0]);
+      }
+    },
+    [handleFile]
+  );
+
+  const { getRootProps, isDragActive } = useDropzone({
+    onDrop,
+    noClick: true,
+    noKeyboard: true,
+    multiple: false,
+    accept: { "image/*": [] },
+  });
+
+  const uploadText = watch("image") ? "change image" : "choose image";
+
+  return (
+    <FormField
+      control={control}
+      name="image"
+      render={() => (
+        <FormItem className="h-full">
+          <FormControl>
+            <div
+              {...getRootProps()}
+              className={cn(
+                "flex flex-col items-center justify-center gap-4 border border-dashed border-white/40 rounded-md p-6 text-center transition-all duration-300",
+                isDragActive ? "bg-white/10 border-white" : "bg-transparent",
+                watch("image") && "border-white"
+              )}
+            >
+              <Input
+                ref={inputRef}
+                type="file"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleFile(file);
+                }}
+              />
+              <FileDownIcon
+                size={92}
+                style={{ color: "white", opacity: 0.2 }}
+              />
+              <h1 className="text-white text-2xl font-semibold">
+                Let’s get creative!
+              </h1>
+              <div className="text-white/60 text-sm lg:text-base">
+                Drop your image here or{" "}
+                <span
+                  className="text-[#b13cff] cursor-pointer hover:underline transition-all"
+                  onClick={handleOpenFileDialog}
+                >
+                  {uploadText}
+                </span>
+              </div>
+
+              {image && (
+                <div className="text-white text-sm mt-2">
+                  {image.name}{" "}
+                  {imageDimensions &&
+                    `(${imageDimensions.width} × ${imageDimensions.height}px)`}
+                </div>
+              )}
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
   );
 };

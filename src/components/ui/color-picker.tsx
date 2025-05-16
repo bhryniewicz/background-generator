@@ -34,17 +34,20 @@ export const ColorPicker = () => {
 
   const chosenColor = form.watch("color");
 
+
   return (
     <div className="relative">
-      <FormLabel>BACKGROUND</FormLabel>
+      <FormLabel className="text-white/80">BACKGROUND</FormLabel>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <div className="flex items-center justify-between gap-4 w-full border border-white h-[36px] px-6 rounded-md text-white cursor-pointer">
-            <div>{chosenColor}</div>
+          <div className="grid grid-cols-[30px_1fr] items-center gap-2 w-full cursor-pointer">
             <div
-              className="w-5 h-5 rounded-sm border border-gray-300"
+              className="w-7 h-7 rounded-sm border border-gray-300"
               style={{ backgroundColor: chosenColor }}
             />
+            <div className="text-white font-medium border  py-1 px-4 rounded-md border-white">
+              {chosenColor}
+            </div>
           </div>
         </DialogTrigger>
         <DialogContent className="bg-white p-6 rounded-lg shadow-lg">

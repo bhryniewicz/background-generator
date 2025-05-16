@@ -1,21 +1,36 @@
 import { useGenerateImage } from "@/features/generate/api/hooks/use-generate-image";
-import { BackgroundCreationForm } from "./image-generator-form";
+import { ImageGenerationForm } from "./image-generator-form";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Canvas } from "@/components/ui/canvas";
 import { OptionsMenu } from "./options-menu";
+import { FormValues, generateImageSchema } from "../api/generate-image-schema";
+import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { defaultValues } from "../api/options";
+import { ImageUploader } from "./image-uploader";
 
 export const ImageGenerator = () => {
-  const { isCanvasGenerated, imgUrl } = useGenerateImage();
+  const {
+    isCanvasGenerated,
+    imgUrl,
+    formData: savedValues,
+  } = useGenerateImage();
+
+  const form = useForm<FormValues>({
+    mode: "onChange",
+    resolver: zodResolver(generateImageSchema),
+    defaultValues: savedValues ?? defaultValues,
+  });
 
   return (
-    <>
-      <div className="col-span-4 flex-grow-1">
-        {!isCanvasGenerated ? <BackgroundCreationForm /> : <OptionsMenu />}
+    <FormProvider {...form}>
+      <div className="order-2 lg:order-1 col-span-1 lg:col-span-6 2xl:col-span-4">
+        {!isCanvasGenerated ? <ImageGenerationForm /> : <OptionsMenu />}
       </div>
-      {/*TODO: /drag n drop for files */}
-      <div className="col-span-9 h-full w-full pl-8 bg-[#272727] ">
-        <div className={cn("relative transition-opacity h-full")}>
+
+      <div className="order-1 lg:order-2 col-span-1 lg:col-span-7 2xl:col-span-9 pl-0 xl:pl-8 bg-[#272727]">
+        <div className="relative transition-opacity h-full">
           {isCanvasGenerated && imgUrl ? (
             <Image
               fill
@@ -25,16 +40,11 @@ export const ImageGenerator = () => {
               className="rounded-lg"
             />
           ) : (
-            <div className="flex flex-col gap-2 items-center justify-center border border-white/40 h-full">
-              <h1 className="text-white text-xl">Drag'n'drop Area</h1>
-              <p className="text-white/60">
-                Drop there file which you want to add to generation
-              </p>
-            </div>
+            <ImageUploader />
           )}
         </div>
         <Canvas />
       </div>
-    </>
+    </FormProvider>
   );
 };

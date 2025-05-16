@@ -18,7 +18,7 @@ export const OptionButton: FC<OptionButtonProps> = ({
   return (
     <Button
       className={cn(
-        `flex flex-col min-h-max p-4 border-2 border-white bg-white/40 transition-all duration-300 hover:border-[#9900FF] hover:bg-[#9900FF]/40`,
+        `flex flex-col h-max p-4 border-2 border-white bg-white/40 transition-all duration-300 hover:border-[#9900FF] hover:bg-[#9900FF]/40`,
         isCancel && "hover:border-red-400 hover:bg-red-400/40"
       )}
       onClick={onClick}

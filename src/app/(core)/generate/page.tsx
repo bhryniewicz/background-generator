@@ -9,12 +9,13 @@ import { Generate } from "./_components/generate";
 export default async function GeneratePage() {
   const queryClient = new QueryClient();
 
-  const cookiesStore = await cookies();
+  const getColorsFromCookies = async () => {
+    const cookiesStore = await cookies();
+    const colorCookie = cookiesStore.get("color")?.value ?? "[]";
+    await queryClient.setQueryData(["USED_COLORS"], JSON.parse(colorCookie));
+  };
 
-  await queryClient.setQueryData(
-    ["USED_COLORS"],
-    JSON.parse(cookiesStore.get("color")?.value as string)
-  );
+  await getColorsFromCookies();
 
   const dehydratedState = dehydrate(queryClient);
 
